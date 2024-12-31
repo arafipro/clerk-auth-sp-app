@@ -11,13 +11,24 @@ import { Text, TouchableOpacity, View } from "react-native";
 export default function Page() {
   const { signOut } = useAuth();
   const { user } = useUser();
-  const { startOAuthFlow } = useOAuth({
-    strategy: "oauth_github",
-  });
+  const { startOAuthFlow } = useOAuth({ strategy: "oauth_github" });
+  const { startOAuthFlow: googleAuth } = useOAuth({ strategy: "oauth_google" });
 
   const handleGitHubLogin = async () => {
     try {
       const { createdSessionId, setActive } = await startOAuthFlow();
+
+      if (createdSessionId) {
+        setActive!({ session: createdSessionId });
+      }
+    } catch (err) {
+      console.error("OAuth error", err);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      const { createdSessionId, setActive } = await googleAuth();
 
       if (createdSessionId) {
         setActive!({ session: createdSessionId });
@@ -53,6 +64,13 @@ export default function Page() {
         >
           <Ionicons name="logo-github" size={24} />
           <Text className="font-semibold">GitHubでログイン</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleGoogleLogin}
+          className="flex-row items-center gap-2 border border-gray-300 px-4 py-2 rounded-lg"
+        >
+          <Ionicons name="logo-github" size={24} />
+          <Text className="font-semibold">Googleでログイン</Text>
         </TouchableOpacity>
       </SignedOut>
     </View>
