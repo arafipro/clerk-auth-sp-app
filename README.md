@@ -19,7 +19,7 @@
 https://bun.sh/  
 https://reactnative.dev/  
 https://expo.dev/  
-https://www.nativewind.dev/
+https://www.nativewind.dev/  
 https://clerk.com/
 
 ## 初期設定
